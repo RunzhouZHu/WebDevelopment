@@ -15,7 +15,7 @@ function CreditCard(props) {
       break;
   }
 
-  num = '···· ···· ···· ' + num.slice(-4);
+  num = '•••• •••• •••• ' + num.slice(-4);
   const color = {
     color: props.color,
   };
