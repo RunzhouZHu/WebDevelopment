@@ -30,13 +30,10 @@ function CreditCard(props) {
         {num}
       </p>
       <p id="expires" style={color}>
-        Expires {props.expirationMonth}/{year}
+        Expires {props.expirationMonth}/{year} {props.bank}
       </p>
       <p id="owner" style={color}>
         {props.owner}
-      </p>
-      <p id="bank" style={color}>
-        {props.bank}
       </p>
     </div>
   );
