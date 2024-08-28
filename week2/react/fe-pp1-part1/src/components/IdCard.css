@@ -1,0 +1,13 @@
+#div1 {
+  display: flex;
+  width: 30rem;
+  margin: 5%;
+  border-style: solid;
+  border-width: 2px;
+  padding: 3px;
+}
+
+ul {
+  padding-left: 5px;
+  list-style-type: none;
+}

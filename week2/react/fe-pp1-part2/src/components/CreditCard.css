@@ -1,0 +1,41 @@
+#div1 {
+  width: 18rem;
+  height: 10rem;
+  border-radius: 15px;
+}
+
+.img {
+  width: 3.5rem;
+  float: right;
+  position: relative;
+  top: 1rem;
+  right: 1rem;
+}
+
+#number {
+  font-size: xx-large;
+  position: relative;
+  top: 3rem;
+  left: 2rem;
+}
+
+#expires {
+  font-size: small;
+  position: relative;
+  top: 2rem;
+  left: 1rem;
+}
+
+#owner {
+  font-size: small;
+  position: relative;
+  top: 1.5rem;
+  left: 1rem;
+}
+
+#bank {
+  font-size: small;
+  position: relative;
+  top: -1.74rem;
+  left: 7rem;
+}
