@@ -24,6 +24,7 @@ body {
   .booklist {
     grid-template-columns: repeat(3, 1fr);
     align-items: start;
+    text-align: center;
   }
 }
 .book {
