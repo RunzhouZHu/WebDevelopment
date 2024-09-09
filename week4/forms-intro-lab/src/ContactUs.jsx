@@ -33,7 +33,7 @@ function ContactUs() {
   return (
     <div>
       <h2>Contact Us</h2>
-      <form>
+      <form onSubmit={onSubmit}>
         <div>
           <label htmlFor="name">Name:</label>
           <input
