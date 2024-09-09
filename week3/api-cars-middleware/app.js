@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const carRouter = require("./routes/carRouter");
-const { middleware1, middleware2} = require("./middleware/customMiddlewares");
+const { middleware1, middleware2 } = require("./middleware/customMiddlewares");
 const logger = require("./middleware/logger");
 const notFound = require("./middleware/notFound");
 
@@ -10,7 +10,7 @@ app.use(express.json());
 
 app.use(logger);
 
-app.get("/", middleware1 ,(req, res) => res.send("API Running!"));
+app.get("/", middleware1, (req, res) => res.send("API Running!"));
 
 // Use the carRouter for all /cars routes
 app.use("/cars", carRouter);
