@@ -10,6 +10,7 @@ function ContactUs() {
   const onSubmit = (e) => {
     e.preventDefault();
 
+    // Create a new object for the contact information.
     const contactUsInformation = {
       name,
       email,
