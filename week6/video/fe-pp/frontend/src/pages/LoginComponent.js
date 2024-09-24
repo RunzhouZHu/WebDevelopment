@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { useLogin } from "../hooks/useLogin";
+
 const LoginComponent = ({ setIsAuthenticated }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  const { login, error, isLoading } = useLogin();
+
   const handleLogin = async () => {
+    /*
     try {
       const response = await fetch("/api/users/login", {
         method: "POST",
@@ -27,14 +32,17 @@ const LoginComponent = ({ setIsAuthenticated }) => {
       }
     } catch (error) {
       console.error("Error during login:", error);
-    }
+    } */
+
+    await login(email, password);
+    navigate("/");
   };
 
   return (
     <div>
       <h2>Login</h2>
       <label>
-      email:
+        email:
         <input
           type="text"
           value={email}
@@ -51,7 +59,10 @@ const LoginComponent = ({ setIsAuthenticated }) => {
         />
       </label>
       <br />
-      <button onClick={handleLogin}>Log In</button>
+      <button onClick={handleLogin} disabled={isLoading}>
+        Log In
+      </button>
+      {error && <div className="error">{error}</div>}
     </div>
   );
 };
