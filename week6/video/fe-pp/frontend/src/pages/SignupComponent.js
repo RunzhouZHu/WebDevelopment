@@ -3,9 +3,13 @@ import { useNavigate } from "react-router-dom";
 
 import { useSignup } from "../hooks/useSignup";
 
+import { useField } from "../hooks/useField";
+
 const SignupComponent = ({ setIsAuthenticated }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  const emailInput = useField("text");
+  const passwordInput = useField("password");
   const navigate = useNavigate();
 
   const { signup, error, isLoading } = useSignup();
@@ -34,31 +38,19 @@ const SignupComponent = ({ setIsAuthenticated }) => {
       console.error("Error during signup:", error);
     } */
 
-    await signup(email, password);
+    await signup(emailInput.value, passwordInput.value);
     navigate("/");
   };
 
   return (
     <div>
       <h2>Signup</h2>
-      <label>
-        email:
-        <input
-          type="text"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </label>
-      <br />
-      <label>
-        Password:
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </label>
-      <br />
+      <div>
+        email: <input {...emailInput} />
+      </div>
+      <div>
+        password: <input {...passwordInput} />
+      </div>
       <button onClick={handleSignup} disabled={isLoading}>
         Sign Up
       </button>
