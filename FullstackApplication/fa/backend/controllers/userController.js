@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 // Generate JWT
 const generateToken = (_id) => {
   return jwt.sign({ _id }, process.env.SECRET, {
-    expiresIn: "3d",
+    expiresIn: "1h",
   });
 };
 
@@ -17,24 +17,20 @@ const signupUser = async (req, res) => {
     name,
     username,
     password,
-    phone_number,
     gender,
     date_of_birth,
-    membership_status,
     address,
-    profile_picture,
+    occupation,
   } = req.body;
   try {
     if (
       !name ||
       !username ||
       !password ||
-      !phone_number ||
       !gender ||
       !date_of_birth ||
-      !membership_status ||
       !address ||
-      !profile_picture
+      !occupation
     ) {
       res.status(400);
       throw new Error("Please add all fields");
@@ -56,61 +52,21 @@ const signupUser = async (req, res) => {
       name,
       username,
       password: hashedPassword,
-      phone_number,
       gender,
       date_of_birth,
-      membership_status,
       address,
-      profile_picture,
+      occupation,
     });
 
     if (user) {
-      // console.log(user._id);
+      console.log(user._id);
       const token = generateToken(user._id);
-      res.status(201).json({ username, token });
+      res.status(201).json({ usrname, token });
     } else {
       res.status(400);
       throw new Error("Invalid user data");
     }
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: error.massage });
   }
-};
-
-// @desc    Authenticate a user
-// @route   POST /api/users/login
-// @access  Public
-const loginUser = async (req, res) => {
-  const { username, password } = req.body;
-  try {
-    // Check for user email
-    const user = await User.findOne({ username });
-
-    if (user && (await bcrypt.compare(password, user.password))) {
-      const token = generateToken(user._id);
-      res.status(200).json({ username, token });
-    } else {
-      res.status(400);
-      throw new Error("Invalid credentials");
-    }
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
-
-// @desc    Get user data
-// @route   GET /api/users/me
-// @access  Private
-const getMe = async (req, res) => {
-  try {
-    res.status(200).json(req.user);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
-
-module.exports = {
-  signupUser,
-  loginUser,
-  getMe,
 };
