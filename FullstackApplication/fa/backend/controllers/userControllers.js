@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 // Generate JWT
 const generateToken = (_id) => {
   return jwt.sign({ _id }, process.env.SECRET, {
-    expiresIn: "1h",
+    expiresIn: "3d",
   });
 };
 
@@ -60,18 +60,42 @@ const signupUser = async (req, res) => {
     });
 
     if (user) {
+      // console.log(user._id);
       const token = generateToken(user._id);
-      console.log(user._id + "1wwwwwwwwwwww");
-      res.status(201).json({ usrname, token });
+      res.status(201).json({ username, token });
     } else {
       res.status(400);
       throw new Error("Invalid user data");
     }
   } catch (error) {
-    res.status(400).json({ error: error.massage });
+    console.log("wwwwwwwwwwwww");
+    console.log(error);
+    res.status(400).json({ error: error.message });
+  }
+};
+
+// @desc    Authenticate a user
+// @route   Post /api/users/login
+// @access  Public
+const loginUser = async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    // Check for username
+    const user = await User.findOne({ username });
+
+    if (user && (await bcrypt.compare(password, user.password))) {
+      const token = generateToken(user._id);
+      res.status(200).json({ username, token });
+    } else {
+      res.status(400);
+      throw new Error("Invalid credentials");
+    }
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 };
 
 module.exports = {
   signupUser,
+  loginUser,
 };
