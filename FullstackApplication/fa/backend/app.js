@@ -7,6 +7,7 @@ connectDB();
 
 // Use the blogRouter for all "/blogs" routes
 app.use("/api/blogs", blogRouter);
+
 // Use the userRouter for all "user" routes
 
 module.exports = app;
