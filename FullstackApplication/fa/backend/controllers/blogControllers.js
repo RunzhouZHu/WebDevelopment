@@ -72,8 +72,30 @@ const updateBlog = async (req, res) => {
   }
 };
 
+//Delete blog by ID
+const deleteBlog = async (req, res) => {
+  const { blogId } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(blogId)) {
+    return res.status(404).json({ error: "No such blog" });
+  }
+
+  try {
+    // const user_id = req.user._id
+    const blog = await Blog.findOneAndDelete({ _id: blogId });
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+    res.status(204).send();
+  } catch (error) {
+    console.error("Error deleting job", error);
+    res.status(500).json({ error: "Server Error" });
+  }
+};
+
 module.exports = {
   getAllBlogs,
   createBlog,
   getBlogById,
+  updateBlog,
+  deleteBlog,
 };
