@@ -22,6 +22,7 @@ const signupUser = async (req, res) => {
     address,
     occupation,
   } = req.body;
+
   try {
     if (
       !name ||
@@ -59,8 +60,8 @@ const signupUser = async (req, res) => {
     });
 
     if (user) {
-      console.log(user._id);
       const token = generateToken(user._id);
+      console.log(user._id + "1wwwwwwwwwwww");
       res.status(201).json({ usrname, token });
     } else {
       res.status(400);
