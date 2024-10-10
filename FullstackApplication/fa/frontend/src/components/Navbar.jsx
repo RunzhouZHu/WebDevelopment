@@ -13,7 +13,7 @@ export default function NavBar() {
       <div className="links">
         {isLoggedIn && (
           <div>
-            <Link to="/blogs/add-blog"></Link>
+            <Link to="/blogs/add-blog">Add Blog</Link>
             <span>{JSON.parse(localStorage.getItem("user")).username}</span>
             <button onClick={logout}>Log out</button>
           </div>

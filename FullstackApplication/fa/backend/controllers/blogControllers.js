@@ -36,7 +36,7 @@ const getBlogById = async (req, res) => {
   }
 
   try {
-    const blog = Blog.findById(blogId);
+    const blog = await Blog.findById(blogId);
     if (!blog) {
       console.log("Blog not found");
       return res.status(404).json({ message: "Blog not found" });
