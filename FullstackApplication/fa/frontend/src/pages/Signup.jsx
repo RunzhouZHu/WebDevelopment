@@ -42,19 +42,19 @@ export default function Signup() {
         <h2>Sign Up</h2>
         <form onSubmit={handleFormSubmit}>
           <label>Name: </label>
-          <input {...name} />
+          <input required {...name} />
           <label>UserName: </label>
-          <input {...username} />
+          <input required {...username} />
           <label>Password: </label>
-          <input {...password} />
+          <input required {...password} />
           <label>Gender: </label>
-          <input {...gender} />
+          <input required {...gender} />
           <label>Date of Birth: </label>
-          <input {...dateOfBirth} />
+          <input required {...dateOfBirth} />
           <label>Address: </label>
-          <input {...address} />
+          <input required {...address} />
           <label>Occupation: </label>
-          <input {...occupation} />
+          <input required {...occupation} />
           <button>Sign up</button>
         </form>
       </div>

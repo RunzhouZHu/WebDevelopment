@@ -28,9 +28,9 @@ export default function Login() {
         <h2>Login</h2>
         <form onSubmit={handleFormSubmit}>
           <label>UserName: </label>
-          <input {...username} />
+          <input required {...username} />
           <label>Password: </label>
-          <input {...password} />
+          <input required {...password} />
           <button>Log In</button>
         </form>
       </div>
