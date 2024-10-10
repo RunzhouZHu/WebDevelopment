@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../Context/AuthContext";
+import AuthContext from "../Context/AuthContext";
 
 export default function BlogPage() {
   const navigate = useNavigate();
@@ -8,10 +8,7 @@ export default function BlogPage() {
   const [blog, setBlog] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { isLoggedIn } = useContext(AuthContext);
-
-  const user = JSON.parse(localStorage.getItem("user"));
-  const token = user ? user.token : null;
+  const { token, isAuthenticated } = useContext(AuthContext);
 
   const deleteBlog = async (id) => {
     try {
@@ -57,6 +54,11 @@ export default function BlogPage() {
     );
     if (!confirm) return;
 
+    if (!token) {
+      console.log("You are nor authorized to delete this blog.");
+      return navigate("/");
+    }
+
     deleteBlog(blogId);
   };
 
@@ -72,7 +74,7 @@ export default function BlogPage() {
           <p>Body: {blog.body}</p>
           <p>Author: {blog.author}</p>
 
-          {isLoggedIn && (
+          {isAuthenticated && (
             <>
               <button onClick={() => onDeleteClick(blog._id)}>delete</button>
               <button onClick={() => navigate(`/edit-blog/${blog._id}`)}>

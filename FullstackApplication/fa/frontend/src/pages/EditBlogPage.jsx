@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate, Form } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import AuthContext from "../Context/AuthContext";
 
 export default function EditBlogPage() {
   const [blog, setBlog] = useState(null);
@@ -12,31 +13,9 @@ export default function EditBlogPage() {
   const [body, setBody] = useState("");
   const [author, setAuthor] = useState("");
 
-  const user = JSON.parse(localStorage.getItem("user"));
-  const token = user ? user.token : null;
+  const { token } = useContext(AuthContext);
 
   const navigate = useNavigate();
-
-  const updateBlog = async (blog) => {
-    try {
-      console.log("Updating Blog:", blog);
-      const response = await fetch(`/api/blogs/${blog.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(blog),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to update blof");
-      }
-      return response.ok;
-    } catch (error) {
-      console.error("Error updating blog:", error);
-      return false;
-    }
-  };
 
   // Fetch blog data
   useEffect(() => {
@@ -63,6 +42,32 @@ export default function EditBlogPage() {
 
     fetchBlogs();
   }, [id]);
+
+  if (!token) {
+    return <div>You are not authorized to edit this blog.</div>;
+  }
+
+  const updateBlog = async (blog) => {
+    try {
+      console.log("Updating Blog:", blog);
+      console.log("token", token);
+      const response = await fetch(`/api/blogs/${blog.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(blog),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to update blof");
+      }
+      return response.ok;
+    } catch (error) {
+      console.error("Error updating blog:", error);
+      return false;
+    }
+  };
 
   // Handle form submission
   const submitForm = async (e) => {

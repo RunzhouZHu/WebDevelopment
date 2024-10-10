@@ -1,19 +1,23 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../Context/AuthContext";
 
 export default function AddBlogPage() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [author, setAuthor] = useState("");
 
-  const user = JSON.parse(localStorage.getItem("user"));
-  const token = user ? user.token : null;
-
   const navigete = useNavigate();
 
   const addBlog = async (newBlog) => {
+    if (!token) {
+      console.error("No token found. User is not authenticated.");
+      return false;
+    }
+
     try {
       console.log("Adding blog:", newBlog);
+      console.log("token", token);
       const response = await fetch("/api/blogs", {
         method: "POST",
         headers: {
@@ -22,7 +26,6 @@ export default function AddBlogPage() {
         },
         body: JSON.stringify(newBlog),
       });
-      console.log(response);
       if (!response.ok) {
         throw new Error("Failed to adding Blog");
       }
@@ -51,6 +54,10 @@ export default function AddBlogPage() {
       console.error("Failed to add the blog");
     }
   };
+
+  if (!token) {
+    return <div>You are nor authorized to add a blog.</div>;
+  }
 
   return (
     <div className="create">

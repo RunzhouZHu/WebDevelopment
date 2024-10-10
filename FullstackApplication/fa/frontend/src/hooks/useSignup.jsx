@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useAuth } from "./useAuth";
 
 export default function useSignup(url) {
+  const { setUser } = useAuth();
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
 
@@ -21,7 +23,7 @@ export default function useSignup(url) {
         return null;
       }
 
-      localStorage.setItem("user", JSON.stringify(user));
+      setUser(user);
       setIsLoading(false);
       return user;
     } catch (error) {

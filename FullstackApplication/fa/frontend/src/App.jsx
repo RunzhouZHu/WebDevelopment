@@ -1,15 +1,14 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import AuthProvider from "./Context/AuthProvider";
+import RouteGuard from "./components/RouteGuard";
 
 // pages and components
 import Home from "./pages/HomePage";
 import NavBar from "./components/Navbar";
-import AuthProvider from "./Context/AuthContext";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFoundPage";
 import BlogPage from "./pages/BlogPage";
-import RouteGuard from "./components/RouteGuard";
 import EditBlogPage from "./pages/EditBlogPage";
 import AddBlogPage from "./pages/AddBlogPage";
 
@@ -26,7 +25,7 @@ function App() {
               <Route
                 path="/edit-blog/:id"
                 element={
-                  <RouteGuard>
+                  <RouteGuard requireAuth={true}>
                     <EditBlogPage />
                   </RouteGuard>
                 }
@@ -34,13 +33,27 @@ function App() {
               <Route
                 path="blogs/add-blog"
                 element={
-                  <RouteGuard>
+                  <RouteGuard requireAuth={true}>
                     <AddBlogPage />
                   </RouteGuard>
                 }
               />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/login" element={<Login />} />
+              <Route
+                path="/signup"
+                element={
+                  <RouteGuard requireAuth={false}>
+                    <Signup />
+                  </RouteGuard>
+                }
+              />
+              <Route
+                path="/login"
+                element={
+                  <RouteGuard requireAuth={false}>
+                    <Login />
+                  </RouteGuard>
+                }
+              />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>

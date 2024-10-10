@@ -1,10 +1,10 @@
-import { useContext, useState } from "react";
-import { AuthContext } from "../Context/AuthContext";
+import { useState } from "react";
+import { useAuth } from "./useAuth";
 
 export default function useLogin(url) {
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(null);
-  const { setIsLoggedIn } = useContext(AuthContext);
+  const { setUser } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
 
   const login = async (object) => {
     setIsLoading(true);
@@ -23,9 +23,10 @@ export default function useLogin(url) {
         return null;
       }
 
-      localStorage.setItem("user", JSON.stringify(user));
+      setUser(user);
+
       setIsLoading(false);
-      setIsLoggedIn(true);
+      return user;
     } catch (error) {
       setError("An error occurred while loggin in.");
       setIsLoading(false);

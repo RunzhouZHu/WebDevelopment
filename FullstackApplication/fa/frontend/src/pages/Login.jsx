@@ -2,10 +2,11 @@ import { useContext } from "react";
 import useField from "../hooks/useField";
 import useLogin from "../hooks/useLogin";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../Context/AuthContext";
+import AuthContext from "../Context/AuthContext";
 
 export default function Login() {
   const navigate = useNavigate();
+  const { setUser } = useContext(AuthContext);
   const username = useField("text");
   const password = useField("current-password");
 
@@ -21,6 +22,7 @@ export default function Login() {
     });
     if (userData) {
       console.log("loggin success", userData);
+      setUser(userData);
       navigate("/");
     } else {
       console.error("Login failed:", error);
