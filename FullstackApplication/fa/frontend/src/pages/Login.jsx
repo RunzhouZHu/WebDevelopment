@@ -15,10 +15,15 @@ export default function Login() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    await login({ username: username.value, password: password.value });
-    if (!error) {
-      console.log("loggin success");
+    const userData = await login({
+      username: username.value,
+      password: password.value,
+    });
+    if (userData) {
+      console.log("loggin success", userData);
       navigate("/");
+    } else {
+      console.error("Login failed:", error);
     }
   };
 

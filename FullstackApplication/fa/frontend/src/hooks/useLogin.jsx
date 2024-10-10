@@ -9,22 +9,28 @@ export default function useLogin(url) {
   const login = async (object) => {
     setIsLoading(true);
     setError(null);
-    const response = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(object),
-    });
-    const user = await response.json();
 
-    if (!response.ok) {
-      setError(user.error);
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(object),
+      });
+      const user = await response.json();
+
+      if (!response.ok) {
+        setError(user.error);
+        return null;
+      }
+
+      localStorage.setItem("user", JSON.stringify(user));
       setIsLoading(false);
-      return error;
+      setIsLoggedIn(true);
+    } catch (error) {
+      setError("An error occurred while loggin in.");
+      setIsLoading(false);
+      return null;
     }
-
-    localStorage.setItem("user", JSON.stringify(user));
-    setIsLoading(false);
-    setIsLoggedIn(true);
   };
 
   return { login, error };

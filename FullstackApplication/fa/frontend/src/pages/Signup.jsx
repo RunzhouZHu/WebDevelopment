@@ -20,7 +20,7 @@ export default function Signup() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    await signup({
+    const userData = await signup({
       username: username.value,
       password: password.value,
       name: name.value,
@@ -29,10 +29,12 @@ export default function Signup() {
       address: address.value,
       occupation: occupation.value,
     });
-    if (!error) {
+    if (userData) {
       console.log("success");
       setIsLoggedIn(true);
       navigate("/");
+    } else {
+      console.error("Signup failed:", error);
     }
   };
 
